@@ -17,22 +17,24 @@ def GetQuote():
     response = requests.get('https://api.quotable.io/random')
     quote = response.json()['content']
     print(quote)
+    while 0<=len(quote)>100:
+        response = requests.get('https://api.quotable.io/random')
+        quote = response.json()['content']
+        print(quote)
     return quote
 
 
 def GenerateImage(quote):
-    # image = Image.new('RGB', (1200, 630), color='#1D1E1F')
-    # draw = ImageDraw.Draw(image)
-    # # font = ImageFont.truetype('OpenSans-Regular.ttf', size=60)
-    # draw.text((100, 100), quote_text, fill='#FFFFFF')
-    # # font = ImageFont.truetype('OpenSans-Bold.ttf', size=40)
-    # draw.text((100, 400), quote_author, fill='#FFFFFF')
-    font = ImageFont.truetype("arial.ttf", 14)
+    static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static\\fonts')
+    filename = 'Midnew.ttf'
+    filepath = os.path.join(static_folder, filename)
+    print(filepath)
+    font = ImageFont.truetype(filepath, 14)
     img = Image.new('RGB', (1200, 50), color=(255, 255, 255,0))
     d = ImageDraw.Draw(img)
     d.text((10,10), quote, font=font, fill=(0,0,0))
     
-    static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static\images')
+    static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static\\images')
     filename = 'quote.png'
     filepath = os.path.join(static_folder, filename)
     with open(filepath, 'wb') as f:
